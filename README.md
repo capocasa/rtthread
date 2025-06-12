@@ -32,7 +32,7 @@ proc doSomething(x: int) {.thread.} =
   echo x + 2
   sleep 200
 
-createRealtimeThread(t, doSomething, 12345, priority)
+createRealtimeThread(t, doSomething, priority, 12345)
 
 echo "started"
 joinThread(t)
@@ -58,4 +58,10 @@ OS Support
 
 Linux works best, other unixes are also supported. Windows is not supported, but could be, using the similar Windows mechanism. The Industrial Windows version would be interesting to support.
 
+Changelog
+---------
 
+```
+0.2.0  Fix void types. Breaking change, needed to change position of priority parameter for this.
+0.1.0  Initial
+```

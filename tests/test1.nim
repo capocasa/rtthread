@@ -14,7 +14,15 @@ proc doThread(x: int) {.thread.} =
   foo = 1
 
 var t:Thread[int]
-createRealtimeThread(t, doThread, 12345, 96)
+createRealtimeThread(t, doThread, 96, 12345)
 joinThreads(t)
 assert foo == 1, "basic test"
+
+proc doThread2() {.thread.} =
+  foo = 2
+
+var t2:Thread[void]
+createRealtimeThread(t2, doThread2, 96)
+joinThreads(t2)
+assert foo == 2, "void"
 

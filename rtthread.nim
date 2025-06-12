@@ -20,9 +20,9 @@ proc pthread_attr_setinheritsched*(a1: ptr Pthread_attr, a2: cint): cint {.
 
 proc createRealtimeThread*[TArg](t: var Thread[TArg],
                            tp: proc (arg: TArg) {.thread, nimcall.},
-                           param: TArg,
-                           priority: cint = 80) =
-
+                           priority: cint = 80,
+                           param: TArg
+                           ) =
   t.core = cast[PGcThread](allocThreadStorage(sizeof(GcThread)))
 
   when TArg isnot void: t.data = param
@@ -55,3 +55,8 @@ proc createRealtimeThread*[TArg](t: var Thread[TArg],
 
   doAssert pthread_attr_destroy(a) == 0
 
+proc createRealtimeThread*(t: var Thread[void],
+                           tp: proc () {.thread, nimcall.},
+                           priority: cint = 80
+                           ) =
+  createRealtimeThread[void](t, tp, priority)
